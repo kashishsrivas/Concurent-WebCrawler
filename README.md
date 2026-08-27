@@ -8,7 +8,7 @@ A high-performance concurrent web crawler built in Go that crawls websites, extr
 
 - HTTP Page Fetching
 - HTML Parsing
-- 🔗 Link Extraction
+- Link Extraction
 - Relative URL Resolution
 - Duplicate URL Removal
 - Link Filtering (`mailto`, `tel`, `javascript`, fragments)
@@ -398,3 +398,5 @@ HTTP request timeout.
 ## 👨‍💻 Author
 
 **Kashish Srivastava**  
+
+Thank you :)
