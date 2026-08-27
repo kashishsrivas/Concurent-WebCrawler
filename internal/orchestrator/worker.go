@@ -2,6 +2,7 @@ package orchestrator
 
 import (
 	"context"
+	"fmt"
 	"sync"
 
 	"Concurent-WebCrawler/internal/crawler"
@@ -17,7 +18,7 @@ func NewWorkerPool(workers int) *WorkerPool {
 
 	return &WorkerPool{
 		Workers: workers,
-		Jobs:    make(chan crawler.Job, 100),
+		Jobs:    make(chan crawler.Job, 5000),
 	}
 }
 
@@ -30,9 +31,14 @@ func (wp *WorkerPool) Start(
 
 		wp.WG.Add(1)
 
-		go func() {
+		go func(workerID int) {
 
 			defer wp.WG.Done()
+
+			fmt.Printf(
+				"Worker %d started\n",
+				workerID,
+			)
 
 			for {
 
@@ -53,7 +59,7 @@ func (wp *WorkerPool) Start(
 					)
 				}
 			}
-		}()
+		}(i + 1)
 	}
 }
 

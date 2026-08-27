@@ -8,6 +8,7 @@ import (
 
 	"Concurent-WebCrawler/internal/crawler"
 	"Concurent-WebCrawler/internal/fetcher"
+	"Concurent-WebCrawler/internal/orchestrator"
 )
 
 func main() {
@@ -30,6 +31,12 @@ func main() {
 		"maximum crawl depth",
 	)
 
+	workers := flag.Int(
+		"workers",
+		5,
+		"number of concurrent workers",
+	)
+
 	flag.Parse()
 
 	if *startURL == "" {
@@ -45,9 +52,35 @@ func main() {
 		*depth,
 	)
 
-	c.Crawl(
-		ctx,
-		*startURL,
-		0,
+	pool := orchestrator.NewWorkerPool(
+		*workers,
 	)
+
+	pool.Start(
+		ctx,
+		func(
+			ctx context.Context,
+			job crawler.Job,
+		) {
+
+			c.CrawlJob(
+				ctx,
+				job,
+				pool.Jobs,
+			)
+		},
+	)
+
+	c.AddJob()
+
+	pool.Jobs <- crawler.Job{
+		URL:   *startURL,
+		Depth: 0,
+	}
+
+	c.Wait()
+
+	close(pool.Jobs)
+
+	pool.Wait()
 }
