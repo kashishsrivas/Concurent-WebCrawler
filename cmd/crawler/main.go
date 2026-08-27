@@ -4,11 +4,15 @@ import (
 	"context"
 	"flag"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"Concurent-WebCrawler/internal/crawler"
 	"Concurent-WebCrawler/internal/fetcher"
 	"Concurent-WebCrawler/internal/orchestrator"
+	"Concurent-WebCrawler/internal/storage"
 )
 
 func main() {
@@ -43,7 +47,24 @@ func main() {
 		log.Fatal("url flag is required")
 	}
 
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(
+		context.Background(),
+	)
+	defer cancel()
+	signalChan := make(chan os.Signal, 1)
+
+	signal.Notify(
+		signalChan,
+		os.Interrupt,
+		syscall.SIGTERM,
+	)
+
+	go func() {
+		<-signalChan
+
+		log.Println("Shutdown signal received...")
+		cancel()
+	}()
 
 	f := fetcher.New(*timeout)
 
@@ -80,7 +101,30 @@ func main() {
 
 	c.Wait()
 
+	if err := storage.SaveJSON(
+		"output/crawl.json",
+		c.Results(),
+	); err != nil {
+		log.Println(err)
+	}
+
+	if err := storage.SaveCSV(
+		"output/crawl.csv",
+		c.Results(),
+	); err != nil {
+		log.Println(err)
+	}
+
 	close(pool.Jobs)
 
+	log.Println("================================")
+	log.Printf("Pages Crawled : %d\n", c.PagesCrawled())
+	log.Printf("Workers Used  : %d\n", *workers)
+	log.Printf("Max Depth     : %d\n", *depth)
+	log.Println("================================")
+
 	pool.Wait()
+
+	log.Println("Crawler stopped successfully.")
+
 }

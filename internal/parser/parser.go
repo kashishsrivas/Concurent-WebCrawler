@@ -17,7 +17,7 @@ func ExtractLinks(htmlBody []byte, baseURL string) ([]string, error) {
 		return nil, err
 	}
 
-	var links []string
+	linkSet := make(map[string]struct{})
 
 	var traverse func(*html.Node)
 
@@ -29,16 +29,35 @@ func ExtractLinks(htmlBody []byte, baseURL string) ([]string, error) {
 
 				if attr.Key == "href" {
 
+					href := strings.TrimSpace(attr.Val)
+
+					if href == "" {
+						continue
+					}
+
+					if strings.HasPrefix(href, "#") {
+						continue
+					}
+
+					if strings.HasPrefix(href, "javascript:") {
+						continue
+					}
+
+					if strings.HasPrefix(href, "mailto:") {
+						continue
+					}
+
+					if strings.HasPrefix(href, "tel:") {
+						continue
+					}
+
 					link := resolveURL(
 						baseURL,
-						attr.Val,
+						href,
 					)
 
 					if link != "" {
-						links = append(
-							links,
-							link,
-						)
+						linkSet[link] = struct{}{}
 					}
 				}
 			}
@@ -50,6 +69,12 @@ func ExtractLinks(htmlBody []byte, baseURL string) ([]string, error) {
 	}
 
 	traverse(doc)
+
+	links := make([]string, 0, len(linkSet))
+
+	for link := range linkSet {
+		links = append(links, link)
+	}
 
 	return links, nil
 }
@@ -71,7 +96,9 @@ func resolveURL(
 		return ""
 	}
 
-	return baseURL.ResolveReference(
-		refURL,
-	).String()
+	resolved := baseURL.ResolveReference(refURL)
+
+	resolved.Fragment = ""
+
+	return resolved.String()
 }

@@ -1,0 +1,114 @@
+[
+  {
+    "url": "https://example.com",
+    "depth": 0
+  },
+  {
+    "url": "https://iana.org/domains/example",
+    "depth": 1
+  },
+  {
+    "url": "https://iana.org/time-zones",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/",
+    "depth": 2
+  },
+  {
+    "url": "https://www.icann.org/",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/protocols",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/go/rfc6761",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/news",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/performance",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/contact",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/go/rfc2606",
+    "depth": 2
+  },
+  {
+    "url": "https://www.icann.org/privacy/policy",
+    "depth": 2
+  },
+  {
+    "url": "https://www.icann.org/privacy/tos",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/domains",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/numbers",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/help",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/domains/root",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/domains/int",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/domains/arpa",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/domains/idn-tables",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/numbers/registries",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/about",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/domains/reserved",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/numbers/allocations/",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/help/abuse",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/about/organization",
+    "depth": 2
+  },
+  {
+    "url": "https://iana.org/archive",
+    "depth": 2
+  },
+  {
+    "url": "https://pti.icann.org",
+    "depth": 2
+  }
+]

@@ -4,19 +4,23 @@ import (
 	"context"
 	"fmt"
 	"sync"
+	"time"
 
 	"Concurent-WebCrawler/internal/fetcher"
+	"Concurent-WebCrawler/internal/limiter"
 	"Concurent-WebCrawler/internal/parser"
+	"Concurent-WebCrawler/internal/storage"
 )
 
 type Crawler struct {
-	fetcher  *fetcher.Fetcher
-	visited  *Visited
-	maxDepth int
-	wg       sync.WaitGroup
+	fetcher     *fetcher.Fetcher
+	visited     *Visited
+	maxDepth    int
+	wg          sync.WaitGroup
+	rateLimiter *limiter.RateLimiter
 
-	maxPages  int
-	pageCount int
+	pagesCrawled int
+	results      []storage.CrawlResult
 }
 
 func New(
@@ -28,7 +32,9 @@ func New(
 		fetcher:  f,
 		visited:  NewVisited(),
 		maxDepth: maxDepth,
-		maxPages: 1000,
+		rateLimiter: limiter.NewRateLimiter(
+			500 * time.Millisecond,
+		),
 	}
 }
 
@@ -89,7 +95,6 @@ func (c *Crawler) Crawl(
 	}
 }
 
-// Worker Pool Version
 func (c *Crawler) CrawlJob(
 	ctx context.Context,
 	job Job,
@@ -108,11 +113,23 @@ func (c *Crawler) CrawlJob(
 
 	c.visited.Add(job.URL)
 
+	c.IncrementPages()
+
+	c.results = append(
+		c.results,
+		storage.CrawlResult{
+			URL:   job.URL,
+			Depth: job.Depth,
+		},
+	)
+
 	fmt.Printf(
 		"\n[Worker] Crawling: %s (Depth %d)\n",
 		job.URL,
 		job.Depth,
 	)
+
+	c.rateLimiter.Wait()
 
 	body, _, err := c.fetcher.Fetch(
 		ctx,
@@ -120,6 +137,12 @@ func (c *Crawler) CrawlJob(
 	)
 
 	if err != nil {
+
+		if ctx.Err() != nil {
+			fmt.Println("Worker stopped due to shutdown")
+			return
+		}
+
 		fmt.Println("Fetch Error:", err)
 		return
 	}
@@ -168,4 +191,16 @@ func (c *Crawler) DoneJob() {
 
 func (c *Crawler) Wait() {
 	c.wg.Wait()
+}
+
+func (c *Crawler) IncrementPages() {
+	c.pagesCrawled++
+}
+
+func (c *Crawler) PagesCrawled() int {
+	return c.pagesCrawled
+}
+
+func (c *Crawler) Results() []storage.CrawlResult {
+	return c.results
 }
