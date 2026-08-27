@@ -1,14 +1,14 @@
-# Concurrent Web Crawler
+# 🚀 Concurrent Web Crawler
 
 A high-performance concurrent web crawler built in Go that crawls websites, extracts links, tracks visited pages, exports crawl results, and supports configurable crawl depth.
 
 ---
 
-## Features
+## ✨ Features
 
 - HTTP Page Fetching
 - HTML Parsing
-- Link Extraction
+- 🔗 Link Extraction
 - Relative URL Resolution
 - Duplicate URL Removal
 - Link Filtering (`mailto`, `tel`, `javascript`, fragments)
@@ -24,7 +24,7 @@ A high-performance concurrent web crawler built in Go that crawls websites, extr
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 Concurrent-WebCrawler/
@@ -67,9 +67,9 @@ Concurrent-WebCrawler/
 
 ---
 
-## Technologies Used
+## 🛠️ Technologies Used
 
-### Go Standard Library
+### 📚 Go Standard Library
 
 - net/http
 - context
@@ -83,7 +83,7 @@ Concurrent-WebCrawler/
 - encoding/json
 - encoding/csv
 
-### External Package
+### 📦 External Package
 
 ```go
 golang.org/x/net/html
@@ -93,9 +93,9 @@ Used for HTML parsing and link extraction.
 
 ---
 
-## How It Works
+## ⚙️ How It Works
 
-### Step 1 - Fetch HTML
+### 🔹 Step 1 - Fetch HTML
 
 ```text
 URL
@@ -105,7 +105,7 @@ HTTP Request
 HTML Response
 ```
 
-### Step 2 - Parse HTML
+### 🔹 Step 2 - Parse HTML
 
 ```text
 HTML
@@ -115,7 +115,7 @@ Find Anchor Tags
 Extract href Values
 ```
 
-### Step 3 - Normalize URLs
+### 🔹 Step 3 - Normalize URLs
 
 ```text
 /about
@@ -123,7 +123,7 @@ Extract href Values
 https://example.com/about
 ```
 
-### Step 4 - Filter Unwanted Links
+### 🔹 Step 4 - Filter Unwanted Links
 
 ```text
 javascript:void(0)
@@ -136,7 +136,7 @@ tel:+911234567890
 Ignored
 ```
 
-### Step 5 - Create Crawl Jobs
+### 🔹 Step 5 - Create Crawl Jobs
 
 ```text
 Extracted Links
@@ -146,7 +146,7 @@ Generate Jobs
 Push To Queue
 ```
 
-### Step 6 - Concurrent Processing
+### 🔹 Step 6 - Concurrent Processing
 
 ```text
 Multiple Workers
@@ -158,7 +158,7 @@ Parse Content
 Extract Links
 ```
 
-### Step 7 - Store Results
+### 🔹 Step 7 - Store Results
 
 ```text
 Processed URLs
@@ -170,7 +170,7 @@ Export JSON / CSV
 
 ---
 
-## System Architecture
+## 🏗️ System Architecture
 
 ```text
                          Seed URL
@@ -229,7 +229,7 @@ Export JSON / CSV
 
 ---
 
-## Concurrency Workflow
+## ⚡ Concurrency Workflow
 
 ```text
 Seed URL
@@ -268,27 +268,27 @@ Fetch → Parse → Extract → Queue New Jobs
 
 ---
 
-## Running The Project
+## 🚀 Running The Project
 
-### Clone Repository
+### 📥 Clone Repository
 
 ```bash
 git clone https://github.com/<your-username>/Concurrent-WebCrawler.git
 ```
 
-### Move Into Project Directory
+### 📂 Move Into Project Directory
 
 ```bash
 cd Concurrent-WebCrawler
 ```
 
-### Install Dependencies
+### 📦 Install Dependencies
 
 ```bash
 go mod tidy
 ```
 
-### Run the Crawler
+### ▶️ Run the Crawler
 
 ```bash
 go run cmd/crawler/main.go \
@@ -299,7 +299,7 @@ go run cmd/crawler/main.go \
 
 ---
 
-## Example Output
+## 🖥️ Example Output
 
 ```text
 Worker 1 started
@@ -320,7 +320,7 @@ Worker 5 started
 
 ---
 
-## Crawl Summary
+## 📈 Crawl Summary
 
 ```text
 ================================
@@ -332,9 +332,9 @@ Max Depth     : 2
 
 ---
 
-## Generated Output
+## 📤 Generated Output
 
-### JSON Export
+### 📁 JSON Export
 
 ```json
 [
@@ -349,7 +349,7 @@ Max Depth     : 2
 ]
 ```
 
-### CSV Export
+### 📑 CSV Export
 
 ```csv
 url,depth
@@ -359,9 +359,9 @@ https://iana.org/domains/example,1
 
 ---
 
-## Supported Flags
+## 🎛️ Supported Flags
 
-### URL
+### 🌐 URL
 
 ```bash
 -url https://example.com
@@ -369,7 +369,7 @@ https://iana.org/domains/example,1
 
 Starting URL for crawling.
 
-### Depth
+### 📏 Depth
 
 ```bash
 -depth 2
@@ -377,7 +377,7 @@ Starting URL for crawling.
 
 Maximum crawl depth.
 
-### Workers
+### 👷 Workers
 
 ```bash
 -workers 5
@@ -385,7 +385,7 @@ Maximum crawl depth.
 
 Number of concurrent worker goroutines.
 
-### Timeout
+### ⏱️ Timeout
 
 ```bash
 -timeout 10s
@@ -395,6 +395,6 @@ HTTP request timeout.
 
 ---
 
-## Author
+## 👨‍💻 Author
 
 **Kashish Srivastava**  
